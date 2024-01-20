@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/view/modules/Selller/aboutus_page.dart';
 import 'package:orgami/view/modules/Selller/dailyupdate_page.dart';
 import 'package:orgami/view/modules/Selller/notification_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
@@ -100,15 +101,21 @@ class SellerProfilePage extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              ListTile(
-                leading: const Icon(
-                  Icons.menu_book,
-                  color: black,
-                  size: 40,
-                ),
-                title: Text(
-                  "About us",
-                  style: poppinsStyle(FontWeight.w700, 20, black),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SellerAboutUsPage()));
+                },
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.menu_book,
+                    color: black,
+                    size: 40,
+                  ),
+                  title: Text(
+                    "About us",
+                    style: poppinsStyle(FontWeight.w700, 20, black),
+                  ),
                 ),
               ),
               const Divider(

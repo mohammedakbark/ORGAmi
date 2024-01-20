@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
 
-class NotificationPage extends StatelessWidget {
-  const NotificationPage({super.key});
+class SellerNotificationPage extends StatelessWidget {
+  const SellerNotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {

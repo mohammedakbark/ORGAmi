@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
-import 'package:orgami/view/modules/Buyer/navigation.dart';
-import 'package:orgami/view/modules/Buyer/signup_page.dart';
+import 'package:orgami/view/modules/Admin/navigation.dart';
+import 'package:orgami/view/modules/Selller/navigation.dart';
+import 'package:orgami/view/modules/Selller/tab_home.dart';
 import 'package:orgami/view/modules/Selller/signup_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
 
-class BuyerLoginPage extends StatelessWidget {
-  BuyerLoginPage({super.key});
+class AdminLoginPage extends StatelessWidget {
+  AdminLoginPage({super.key});
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -89,56 +89,24 @@ class BuyerLoginPage extends StatelessWidget {
                         disabledBorder: UnderlineInputBorder(),
                         focusedErrorBorder: UnderlineInputBorder()),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Forget Password ?",
-                          style: TextStyle(color: black),
-                        )),
+                  SizedBox(
+                    height: height * .05,
                   ),
                   customeButton(
                       onpressed: () {
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                                builder: (context) => NavigationBuyer()),
+                                builder: (context) => NavigationAdmin()),
                             (route) => false);
                         // if (_formKey.currentState!.validate()) {}
                       },
                       context: context,
-                      bgColor: const MaterialStatePropertyAll(black),
+                      bgColor: const MaterialStatePropertyAll(brown),
                       textcolor: white,
                       text: "Login"),
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "I don't have an account,",
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => BuyerSignPage()));
-                        },
-                        child: const Text(
-                          "Sign-up",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.amber,
-                            color: Colors.amber,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),

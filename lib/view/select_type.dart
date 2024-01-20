@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:orgami/utils/colors.dart';
+import 'package:orgami/view/modules/Admin/loginpage.dart';
 import 'package:orgami/view/modules/Buyer/loginpage.dart';
 import 'package:orgami/view/modules/Selller/loginpage.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
@@ -80,7 +81,10 @@ class SelectUserPage extends StatelessWidget {
             height: height * .05,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AdminLoginPage()));
+            },
             child: customeText(text: "Admin", textcolor: brown),
           )
         ],

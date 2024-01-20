@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
-import 'package:orgami/view/modules/Selller/notification_page.dart';
-import 'package:orgami/view/modules/Selller/tab_home.dart';
-import 'package:orgami/view/modules/Selller/tab_profile.dart';
+import 'package:orgami/view/modules/Admin/tab_home.dart';
+import 'package:orgami/view/modules/Admin/tab_profile.dart';
+import 'package:orgami/view/modules/Buyer/notification_page.dart';
+import 'package:orgami/view/modules/Buyer/tab_home.dart';
+import 'package:orgami/view/modules/Buyer/tab_profile.dart';
 
-class NavigationSeller extends StatelessWidget {
-  NavigationSeller({super.key});
-  List<Widget> body = [SellerHomePage(), SellerProfilePage()];
+class NavigationAdmin extends StatelessWidget {
+  NavigationAdmin({super.key});
+  List<Widget> body = [const AdminHomePage(), const AdminProfilePage()];
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -50,15 +52,16 @@ class NavigationSeller extends StatelessWidget {
           elevation: 0,
           backgroundColor: white,
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => SellerNotificationPage()));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) => const BuyerNotificationPage()));
           },
           child: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Container(
               height: 50,
               width: 50,
-              decoration: BoxDecoration(color: brown, shape: BoxShape.circle),
+              decoration:
+                  const BoxDecoration(color: brown, shape: BoxShape.circle),
               child: const Icon(
                 CupertinoIcons.bell_fill,
                 size: 40,

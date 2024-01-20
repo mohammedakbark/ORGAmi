@@ -1,13 +1,33 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 
 class DailyUpdatePage extends StatelessWidget {
-  const DailyUpdatePage({super.key});
+  DailyUpdatePage({super.key});
+  var milkQuantity = TextEditingController(text: "200");
+  var curdQuantity = TextEditingController(text: "200");
+  var butterQuantity = TextEditingController(text: "200");
+  var butterMilkQuantity = TextEditingController(text: "200");
 
+  var milkRate = TextEditingController(text: "20");
+  var curdRate = TextEditingController(text: "30");
+  var butterRate = TextEditingController(text: "40");
+  var butterMilkRate = TextEditingController(text: "50");
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> values = {
+      "quantity": [
+        milkQuantity,
+        curdQuantity,
+        butterQuantity,
+        butterMilkQuantity
+      ],
+      "rate": [milkRate, curdRate, butterRate, butterMilkRate],
+      "head": ["Milk", "Curd", "Butter", "Butter Milk"]
+    };
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -50,7 +70,8 @@ class DailyUpdatePage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
           height: height * .85,
           width: width,
           margin: const EdgeInsets.only(
@@ -68,13 +89,25 @@ class DailyUpdatePage extends StatelessWidget {
                   ),
               itemBuilder: (context, index) => Container(
                     height: height * .2,
-                    color: white,
                     width: width,
+                    decoration: BoxDecoration(
+                      color: white,
+                      boxShadow: [
+                        BoxShadow(
+                            offset: const Offset(5, 5),
+                            color: Colors.black.withOpacity(.09),
+                            spreadRadius: .02,
+                            blurRadius: 1)
+                      ],
+                    ),
                     child: Column(
                       children: [
                         Text(
-                          "MILK",
+                          "${values["head"][index]}".toUpperCase(),
                           style: poppinsStyle(FontWeight.w700, 20, black),
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,21 +115,72 @@ class DailyUpdatePage extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "Milk Quantity",
+                                  "${values["head"][index]} Quantity",
                                   style:
                                       poppinsStyle(FontWeight.w400, 17, black),
                                 ),
-
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                  width: 130,
+                                  child: TextField(
+                                    showCursor: false,
+                                    maxLength: 5,
+                                    maxLines: 1,
+                                    style: poppinsStyle(
+                                        FontWeight.bold, 22, white),
+                                    keyboardType: TextInputType.number,
+                                    controller: values["quantity"][index],
+                                    decoration: InputDecoration(
+                                        suffixText: "Ltr ",
+                                        suffixStyle: poppinsStyle(
+                                            FontWeight.bold, 22, white),
+                                        filled: true,
+                                        fillColor: const Color.fromARGB(
+                                            187, 166, 158, 158),
+                                        enabledBorder:
+                                            const OutlineInputBorder(),
+                                        focusedBorder:
+                                            const OutlineInputBorder()),
+                                  ),
+                                )
                               ],
                             ),
                             Column(
                               children: [
                                 Text(
-                                  "Milk Rate",
+                                  "${values["head"][index]} Rate",
                                   style:
                                       poppinsStyle(FontWeight.w400, 17, black),
                                 ),
-                               
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                  width: 100,
+                                  child: TextField(
+                                    showCursor: false,
+                                    style: poppinsStyle(
+                                        FontWeight.bold, 22, white),
+                                    keyboardType: TextInputType.number,
+                                    controller: values["rate"][index],
+                                    maxLength: 3,
+                                    decoration: InputDecoration(
+                                        prefixText: "RS ",
+                                        prefixStyle: poppinsStyle(
+                                            FontWeight.bold, 22, white),
+                                        filled: true,
+                                        fillColor: const Color.fromARGB(
+                                            187, 166, 158, 158),
+                                        enabledBorder:
+                                            const OutlineInputBorder(),
+                                        focusedBorder:
+                                            const OutlineInputBorder()),
+                                  ),
+                                )
                               ],
                             )
                           ],
@@ -109,10 +193,30 @@ class DailyUpdatePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: SizedBox(
         width: width,
-        height: 200,
+        height: 130,
         child: Center(
           child: customeButton(
-            
+              onpressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          title: Column(
+                            children: [
+                              const Icon(
+                                CupertinoIcons.check_mark_circled,
+                                size: 200,
+                                color: Color.fromARGB(255, 111, 91, 84),
+                              ),
+                              Text(
+                                "Update Succesfull!",
+                                style: poppinsStyle(FontWeight.w700, 20, white),
+                              )
+                            ],
+                          ),
+                        ));
+              },
               buttonwidth: .6,
               buttonHight: .05,
               context: context,
