@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class SellerNotificationPage extends StatelessWidget {
   const SellerNotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    print("notificationfbbcbbcb===================");
+    final provider = Provider.of<FirestoreDb>(context, listen: false);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -40,7 +44,7 @@ class SellerNotificationPage extends StatelessWidget {
           height: height,
           width: width,
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 215, 202, 200),
+              color: const Color.fromARGB(255, 215, 202, 200),
               borderRadius: BorderRadius.circular(10)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,71 +65,133 @@ class SellerNotificationPage extends StatelessWidget {
                 ),
               ),
               Expanded(
-                  child: GridView.builder(
-                      itemCount: 11,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10),
-                      itemBuilder: (context, index) => Container(
-                            decoration: BoxDecoration(
-                                color: white,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    "ORDER 10${index + 1}",
-                                    style: poppinsStyle(
-                                        FontWeight.w700, 15, black),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                        color:
-                                            Color.fromARGB(255, 233, 248, 234)),
-                                    child: ListTile(
-                                      leading: Text(
-                                        "MILK",
-                                        style: poppinsStyle(
-                                            FontWeight.w600, 15, black),
-                                      ),
-                                      title: Column(
+                  child: FutureBuilder(
+                      future: provider
+                          .fetchnotificationforSellerAndBuyer("sellerId"),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator.adaptive(
+                              backgroundColor: brown,
+                              valueColor: AlwaysStoppedAnimation(white),
+                            ),
+                          );
+                        }
+                        final data = provider.ordersList;
+                        return data.isEmpty
+                            ? Center(
+                                child: Text("No Notifications"),
+                              )
+                            : GridView.builder(
+                                itemCount: data.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10),
+                                itemBuilder: (context, index) => Container(
+                                      decoration: BoxDecoration(
+                                          color: white,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "Quantity:2 ltr",
-                                            style: poppinsStyle(
-                                                FontWeight.w600, 14, black),
+                                          const SizedBox(
+                                            height: 20,
                                           ),
-                                          Text(
-                                            "Price:120",
-                                            style: poppinsStyle(
-                                                FontWeight.w600, 14, black),
-                                          )
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Text(
+                                              "ORDER 10${index + 1}",
+                                              style: poppinsStyle(
+                                                  FontWeight.w700, 15, black),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                  color: Color.fromARGB(
+                                                      255, 233, 248, 234)),
+                                              child: Column(
+                                                children: [
+                                                  ListTile(
+                                                    leading: Text(
+                                                      data[index].product,
+                                                      style: poppinsStyle(
+                                                          FontWeight.w600,
+                                                          15,
+                                                          black),
+                                                    ),
+                                                    title: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "Quantity:${data[index].quantity} ltr",
+                                                          style: poppinsStyle(
+                                                              FontWeight.w600,
+                                                              14,
+                                                              black),
+                                                        ),
+                                                        Text(
+                                                          "Price:${data[index].rate}",
+                                                          style: poppinsStyle(
+                                                              FontWeight.w600,
+                                                              14,
+                                                              black),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(child: SizedBox()),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      data[index].orderStatus,
+                                                      style: TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: statsusColor(
+                                                            data[index]
+                                                                .orderStatus,
+                                                          )),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )))
+                                    ));
+                      }))
             ],
           ),
         ));
+  }
+
+  statsusColor(status) {
+    switch (status) {
+      case "PENDING":
+        return Colors.amber;
+      case "ACCEPTED":
+        return Colors.green;
+      case "REJECTED":
+        return Colors.red;
+    }
   }
 }

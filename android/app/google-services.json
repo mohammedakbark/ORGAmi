@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271966691973",
+    "project_id": "orgami-53cd1",
+    "storage_bucket": "orgami-53cd1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271966691973:android:f642cbb9d5e5cf879c7fec",
+        "android_client_info": {
+          "package_name": "com.example.orgami"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-qiI9RUKcod-RSSOhOpGlFF0OzTMYUR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,18 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Selller/aboutus_page.dart';
+import 'package:orgami/view/modules/Selller/daily_update.dart';
 import 'package:orgami/view/modules/Selller/dailyupdate_page.dart';
 import 'package:orgami/view/modules/Selller/notification_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
+import 'package:orgami/viewmodel/firebase_auths.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class SellerProfilePage extends StatelessWidget {
-  const SellerProfilePage({super.key});
+  FirestoreDb firestore;
+  SellerProfilePage({super.key, required this.firestore});
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Text(
@@ -38,34 +45,38 @@ class SellerProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
-                  radius: 45,
+                const Icon(
+                  CupertinoIcons.profile_circled,
+                  size: 90,
                 ),
 
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    "Farm name",
+                    firestore.sellerModel!.farmName.toUpperCase(),
                     style: poppinsStyle(FontWeight.w600, 16, black),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "address",
+                    firestore.sellerModel!.address,
                     style: poppinsStyle(FontWeight.w400, 14, darkgrey),
                   ),
                   Text(
-                    "userid",
+                    "${firestore.sellerModel!.sellerId}",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: poppinsStyle(FontWeight.w400, 14, darkgrey),
                   ),
-                  Text(
-                    "gst number",
-                    style: poppinsStyle(FontWeight.w400, 14, darkgrey),
-                  ),
+                  // Text(
+                  //   "gst number",
+                  //   style: poppinsStyle(FontWeight.w400, 14, darkgrey),
+                  // ),
                   const SizedBox(
                     height: 60,
                   )
                 ]),
+
                 const SizedBox(
                   width: 10,
                 )
@@ -126,6 +137,35 @@ class SellerProfilePage extends StatelessWidget {
         ),
         const Expanded(child: SizedBox()),
         customeButton(
+          onpressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("Log out"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          "No",
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          FirebaseAuths().signOutFromMAil(context);
+                        },
+                        child: const Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      )
+                    ],
+                  );
+                });
+          },
           context: context,
           textcolor: white,
           text: "Log out",

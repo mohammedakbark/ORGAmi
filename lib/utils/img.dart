@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 String imgsellerHomeCow =
     "https://s3-alpha-sig.figma.com/img/f817/42fb/0cf6de8488d754e9a1a8aee3bfd40ed2?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=RYqJ6YjDgoiy39tLbgdLi0gEYEvtQXt3thajyNFTMhSsY6fCtOb-LGckZQpVQK5Y8TMdyl4hBJ5IJTVbY8P7~kl5kpsUh3jzwwtvRX8LE~FeTJfFoGz4Iy~A3rFFpJtpBHaYAc~Nvev6sBARr6xAZ5lfjE6vMpo~G6ZM7B8-c2ZBCLFlE0BAU~spI7~l3gRykfSPqlrpwIWbSFiOUkH8WW0ZBSA-gQcKSqfYQV5RcvfoLoWN-n2aiqqGbj4ylpp6WMXSNaTk3~Y45vk61aXaBX7m7k5ZhN0unYP3RCatfMVrnY4dntRkSreUpnYFJ86OmpAlVktK~Hl6ZzTDGH354Q__";

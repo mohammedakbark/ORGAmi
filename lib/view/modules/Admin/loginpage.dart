@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Admin/navigation.dart';
-import 'package:orgami/view/modules/Selller/navigation.dart';
-import 'package:orgami/view/modules/Selller/tab_home.dart';
-import 'package:orgami/view/modules/Selller/signup_page.dart';
+
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
+import 'package:orgami/viewmodel/check_login_preference.dart';
 
 class AdminLoginPage extends StatelessWidget {
   AdminLoginPage({super.key});
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: ListView(
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,6 +51,8 @@ class AdminLoginPage extends StatelessWidget {
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
                           .hasMatch(value)) {
                         return "Enter correct Email address";
+                      } else if (value != "admin@gmail.com") {
+                        return "Email is not correct";
                       } else {
                         return null;
                       }
@@ -73,7 +74,7 @@ class AdminLoginPage extends StatelessWidget {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Enter your password";
-                      } else if (value.length < 8) {
+                      } else if (value != "123456") {
                         return "password is incorrect";
                       } else {
                         return null;
@@ -94,11 +95,14 @@ class AdminLoginPage extends StatelessWidget {
                   ),
                   customeButton(
                       onpressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => NavigationAdmin()),
-                            (route) => false);
-                        // if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          setLoginPrefertrue("Admin");
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => NavigationAdmin()),
+                              (route) => false);
+                        
+                        }
                       },
                       context: context,
                       bgColor: const MaterialStatePropertyAll(brown),

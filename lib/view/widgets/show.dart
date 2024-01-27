@@ -24,3 +24,4 @@ succesRegistrationMessage(context, String email, toPage) {
     },
   );
 }
+

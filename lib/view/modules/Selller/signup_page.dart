@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:orgami/model/seller_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Selller/loginpage.dart';
+import 'package:orgami/view/splash_screeen.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
 import 'package:orgami/view/widgets/show.dart';
@@ -21,9 +24,12 @@ class SellerSignPage extends StatelessWidget {
   var addressController = TextEditingController();
   var farmController = TextEditingController();
   var phonenumberController = TextEditingController();
+
+  List<String> selectedProduct = [];
   final _fromkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    print(selectedProduct.length);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -280,6 +286,11 @@ class SellerSignPage extends StatelessWidget {
                               value: controller.ischeckbox1Enabled,
                               onChanged: (value) {
                                 controller.ischeckboxClicked(value, 0);
+                                if (value == true) {
+                                  selectedProduct.add("Milk");
+                                } else {
+                                  selectedProduct.remove("Milk");
+                                }
                               }),
                           Text(
                             "Milk",
@@ -297,6 +308,11 @@ class SellerSignPage extends StatelessWidget {
                               value: controller.ischeckbox2Enabled,
                               onChanged: (value) {
                                 controller.ischeckboxClicked(value, 1);
+                                if (value == true) {
+                                  selectedProduct.add("Curd");
+                                } else {
+                                  selectedProduct.remove("Curd");
+                                }
                               }),
                           Text(
                             "Curd",
@@ -314,6 +330,11 @@ class SellerSignPage extends StatelessWidget {
                               value: controller.ischeckbox3Enabled,
                               onChanged: (value) {
                                 controller.ischeckboxClicked(value, 2);
+                                if (value == true) {
+                                  selectedProduct.add("Butter");
+                                } else {
+                                  selectedProduct.remove("Butter");
+                                }
                               }),
                           Text(
                             "Butter",
@@ -331,6 +352,11 @@ class SellerSignPage extends StatelessWidget {
                               value: controller.ischeckbox4Enabled,
                               onChanged: (value) {
                                 controller.ischeckboxClicked(value, 3);
+                                if (value == true) {
+                                  selectedProduct.add("Butter MIlk");
+                                } else {
+                                  selectedProduct.remove("Butter Milk");
+                                }
                               }),
                           Text(
                             "Butter milk",
@@ -397,29 +423,74 @@ class SellerSignPage extends StatelessWidget {
                   return customeButton(
                       onpressed: () {
                         if (_fromkey.currentState!.validate()) {
-                        if (controller.termsAndCondition == true) {
-                          if (controller.ischeckbox1Enabled == true ||
-                              controller.ischeckbox2Enabled == true ||
-                              controller.ischeckbox3Enabled == true ||
-                              controller.ischeckbox4Enabled == true) {
-                            succesRegistrationMessage(context,
-                                emailController.text, SellerLoginPage());
+                          if (controller.termsAndCondition == true) {
+                            if (controller.ischeckbox1Enabled == true ||
+                                controller.ischeckbox2Enabled == true ||
+                                controller.ischeckbox3Enabled == true ||
+                                controller.ischeckbox4Enabled == true) {
+                              firestoreDb
+                                  .registerSeller(SellerModel(
+                                    password: passwordController.text,
+                                      status: "PENDING",
+                                      address: addressController.text,
+                                      email: emailController.text,
+                                      mobileNumber: phonenumberController.text,
+                                      name: fullNameController.text,
+                                      pincode: pinController.text,
+                                      product: selectedProduct,
+                                      farmName: farmController.text))
+                                  .then((value) => showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            content: const Text(
+                                                "Your details is send to verification.After that  our team will contact you"),
+                                            actions: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const SplashScreen()),
+                                                            (route) => false);
+                                                  },
+                                                  child: const Text("Ok"))
+                                            ],
+                                          )));
+                              // firestoreDb.signinUser(
+                              //     emailController.text,
+                              //     passwordController.text,
+                              //     context,
+                              //     "Seller",
+                              //     SellerLoginPage(),
+                              //     SellerModel(
+                              //       status: "PENDING",
+                              //         address: addressController.text,
+                              //         email: emailController.text,
+                              //         mobileNumber: phonenumberController.text,
+                              //         name: fullNameController.text,
+                              //         pincode: pinController.text,
+                              //         product: selectedProduct,
+                              //         farmName: farmController.text));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("Select minimum 1 product")));
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text("Select minimum 1 product")));
-                          }
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text(
-                                  "agree the Terms and Condition and proceed")));
+                                    content: Text(
+                                        "agree the Terms and Condition and proceed")));
                           }
                         }
                       },
                       context: context,
                       bgColor: const MaterialStatePropertyAll(brown),
                       textcolor: white,
-                      text: "Sign up");
+                      text: "Register Farm");
                 }),
                 const SizedBox(
                   height: 20,

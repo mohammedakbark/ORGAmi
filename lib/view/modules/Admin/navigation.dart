@@ -9,7 +9,7 @@ import 'package:orgami/view/modules/Buyer/tab_profile.dart';
 
 class NavigationAdmin extends StatelessWidget {
   NavigationAdmin({super.key});
-  List<Widget> body = [const AdminHomePage(), const AdminProfilePage()];
+  List<Widget> body = [AdminHomePage(), const AdminProfilePage()];
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -47,28 +47,28 @@ class NavigationAdmin extends StatelessWidget {
                     )))
           ]),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          elevation: 0,
-          backgroundColor: white,
-          onPressed: () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) => const BuyerNotificationPage()));
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration:
-                  const BoxDecoration(color: brown, shape: BoxShape.circle),
-              child: const Icon(
-                CupertinoIcons.bell_fill,
-                size: 40,
-              ),
-            ),
-          ),
-        ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: FloatingActionButton(
+        //   elevation: 0,
+        //   backgroundColor: white,
+        //   onPressed: () {
+        //     // Navigator.of(context).push(MaterialPageRoute(
+        //     //     builder: (context) => const BuyerNotificationPage()));
+        //   },
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(4.0),
+        //     child: Container(
+        //       height: 50,
+        //       width: 50,
+        //       decoration:
+        //           const BoxDecoration(color: brown, shape: BoxShape.circle),
+        //       child: const Icon(
+        //         CupertinoIcons.bell_fill,
+        //         size: 40,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }

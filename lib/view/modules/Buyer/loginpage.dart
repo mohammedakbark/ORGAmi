@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Buyer/navigation.dart';
 import 'package:orgami/view/modules/Buyer/signup_page.dart';
 import 'package:orgami/view/modules/Selller/signup_page.dart';
@@ -19,8 +20,6 @@ class BuyerLoginPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: ListView(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: height * .3,
@@ -100,11 +99,14 @@ class BuyerLoginPage extends StatelessWidget {
                   ),
                   customeButton(
                       onpressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => NavigationBuyer()),
-                            (route) => false);
-                        // if (_formKey.currentState!.validate()) {}
+                       
+                        if (_formKey.currentState!.validate()) {
+                          firestoreDb.loginUser(
+                              emailController.text,
+                              passwordController.text,
+                              context,
+                              NavigationBuyer(),"Buyer");
+                        }
                       },
                       context: context,
                       bgColor: const MaterialStatePropertyAll(black),

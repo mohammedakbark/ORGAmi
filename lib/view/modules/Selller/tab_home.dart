@@ -1,7 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:orgami/model/product_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/img.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class SellerHomePage extends StatelessWidget {
   const SellerHomePage({super.key});
@@ -22,40 +26,40 @@ class SellerHomePage extends StatelessWidget {
             image: DecorationImage(
                 fit: BoxFit.fill, image: NetworkImage(imgsellerHomeCow))),
       ),
-      Card(
-        color: white,
-        elevation: 2,
-        margin: EdgeInsets.only(left: 10, right: width / 3.5),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      Consumer<FirestoreDb>(builder: (context, firestore, child) {
+        // firestore.allProductList.forEach(
+        //   (element) => print(element.),
+        // );
+// List<ProductModel> firestore.allProductList.map((e){
+//           return ProductModel.fromJson(e as Map<String ,dynamic>);
+//         }).toList();
+        return Card(
+          // height: 200,
+          color: white,
+          elevation: 2,
+          margin: EdgeInsets.only(left: 10, right: width / 3.5),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: [
               Text(
                 "Todays Rate",
                 style: GoogleFonts.poppins(
                     fontWeight: FontWeight.w700, fontSize: 21),
               ),
               const Divider(),
-              Text(
-                "Milk: 50 rs",
-                style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600, fontSize: 21),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: firestore.allProductList.length,
+                itemBuilder: (context, index) => Text(
+                  "${firestore.allProductList[index].id}: ${firestore.allProductList[index].rate} rs",
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 21),
+                ),
               ),
-              Text(
-                "Ghee: 500 rs",
-                style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600, fontSize: 21),
-              ),
-              Text(
-                "Curd: 500 rs",
-                style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w600, fontSize: 21),
-              )
-            ],
+            ]),
           ),
-        ),
-      ),
+        );
+      }),
       Padding(
         padding: const EdgeInsets.only(top: 10, left: 8),
         child: ElevatedButton(

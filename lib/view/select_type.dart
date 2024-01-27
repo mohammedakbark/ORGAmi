@@ -25,8 +25,9 @@ class SelectUserPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: 200,
+            height: height * .1,
           ),
+          
           SizedBox(
             height: 400,
             child: CarouselSlider.builder(

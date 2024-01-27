@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/Project/Softroniics/PROJECTS/KR College/orgami/windows/flutter"
+    "cmake.sourceDirectory": "D:/Project/Softroniics/PROJECTS/KR College/orgami/windows/flutter",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

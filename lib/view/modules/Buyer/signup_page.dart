@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:orgami/model/buyer_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Buyer/loginpage.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
@@ -10,18 +12,36 @@ import 'package:orgami/view/widgets/show.dart';
 import 'package:orgami/viewmodel/controller.dart';
 import 'package:provider/provider.dart';
 
-class BuyerSignPage extends StatelessWidget {
+class BuyerSignPage extends StatefulWidget {
   BuyerSignPage({super.key});
+
+  @override
+  State<BuyerSignPage> createState() => _BuyerSignPageState();
+}
+
+class _BuyerSignPageState extends State<BuyerSignPage> {
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var conformpasswordController = TextEditingController();
 
   var fullNameController = TextEditingController();
+
   var pinController = TextEditingController();
+
   var addressController = TextEditingController();
 
   var phonenumberController = TextEditingController();
+
   final _fromkey = GlobalKey<FormState>();
+
+  bool myBool = false;
+@override
+  void initState() {
+   if(myBool)
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -281,18 +301,17 @@ class BuyerSignPage extends StatelessWidget {
                 // CheckboxListTile(value: value, onChanged: onChanged),
                 Consumer<Controller>(builder: (context, controller, child) {
                   return customeButton(
-                      onpressed: () {
+                      onpressed: () async {
                         if (_fromkey.currentState!.validate()) {
-                        if (controller.termsAndCondition == true) {
-                          succesRegistrationMessage(
-                              context,
-                              emailController.text,
-                              BuyerLoginPage());
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                              content: Text(
-                                  "agree the Terms and Condition and proceed")));
-                        }
+                          if (controller.termsAndCondition == true) {
+                            await auth.emailVarification(context);
+                            myBool = true;
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "agree the Terms and Condition and proceed")));
+                          }
                         }
                       },
                       context: context,
@@ -311,5 +330,3 @@ class BuyerSignPage extends StatelessWidget {
     );
   }
 }
-
-

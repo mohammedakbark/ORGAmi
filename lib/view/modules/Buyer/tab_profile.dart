@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orgami/utils/colors.dart';
@@ -7,12 +8,18 @@ import 'package:orgami/view/modules/Selller/aboutus_page.dart';
 import 'package:orgami/view/modules/Selller/dailyupdate_page.dart';
 import 'package:orgami/view/modules/Selller/notification_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
+import 'package:orgami/viewmodel/firebase_auths.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class BuyerProfilePage extends StatelessWidget {
   const BuyerProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final firestore =
+        Provider.of<FirestoreDb>(context, listen: false).buyerModel;
+    print("object");
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Padding(
@@ -24,7 +31,7 @@ class BuyerProfilePage extends StatelessWidget {
             height: height / 3,
           ),
           Text(
-            "Buyer ID:user@004",
+            firestore!.email,
             style: poppinsStyle(FontWeight.w700, 22, black),
           ),
           SizedBox(
@@ -32,8 +39,8 @@ class BuyerProfilePage extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => BuyerAboutUsPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const BuyerAboutUsPage()));
             },
             child: ListTile(
               leading: const Icon(
@@ -52,6 +59,35 @@ class BuyerProfilePage extends StatelessWidget {
           ),
           const Expanded(child: SizedBox()),
           customeButton(
+            onpressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Log out"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            "No",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            FirebaseAuths().signOutFromMAil(context);
+                          },
+                          child: const Text(
+                            "Yes",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        )
+                      ],
+                    );
+                  });
+            },
             context: context,
             textcolor: white,
             text: "Log out",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Selller/navigation.dart';
 import 'package:orgami/view/modules/Selller/tab_home.dart';
 import 'package:orgami/view/modules/Selller/signup_page.dart';
@@ -99,11 +100,14 @@ class SellerLoginPage extends StatelessWidget {
                   ),
                   customeButton(
                       onpressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => NavigationSeller()),
-                            (route) => false);
-                        // if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          firestoreDb.loginUser(
+                              emailController.text,
+                              passwordController.text,
+                              context,
+                              NavigationSeller(),
+                              "Seller");
+                        }
                       },
                       context: context,
                       bgColor: const MaterialStatePropertyAll(brown),

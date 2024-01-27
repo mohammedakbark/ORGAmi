@@ -1,21 +1,58 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
+import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Selller/notification_page.dart';
 import 'package:orgami/view/modules/Selller/tab_home.dart';
 import 'package:orgami/view/modules/Selller/tab_profile.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class NavigationSeller extends StatelessWidget {
   NavigationSeller({super.key});
-  List<Widget> body = [SellerHomePage(), SellerProfilePage()];
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    print("homeee");
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body: SafeArea(child: TabBarView(children: body)),
+        resizeToAvoidBottomInset: false,
+        body: Consumer<FirestoreDb>(builder: (context, firestore, child) {
+          List<Widget> body = [
+            const SellerHomePage(),
+            SellerProfilePage(
+              firestore: firestore,
+            )
+          ];
+          print(body.length);
+          return FutureBuilder(
+            future: firestore.fetchCurrentUser(
+                "Seller",
+                FirebaseAuth.instance.currentUser!.uid,
+                context,
+                NavigationSeller(),
+                false),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                print("Home page bilder");
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: brown,
+                  ),
+                );
+              }
+              print("homeeee");
+              return TabBarView(children: body);
+            },
+          );
+        }),
+
+        // body: TabBarView(children: body),
         backgroundColor: white,
         bottomNavigationBar: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
@@ -50,15 +87,16 @@ class NavigationSeller extends StatelessWidget {
           elevation: 0,
           backgroundColor: white,
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => SellerNotificationPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const SellerNotificationPage()));
           },
           child: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Container(
               height: 50,
               width: 50,
-              decoration: BoxDecoration(color: brown, shape: BoxShape.circle),
+              decoration:
+                  const BoxDecoration(color: brown, shape: BoxShape.circle),
               child: const Icon(
                 CupertinoIcons.bell_fill,
                 size: 40,

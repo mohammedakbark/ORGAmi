@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/view/modules/Buyer/notification_page.dart';
 import 'package:orgami/view/modules/Buyer/tab_home.dart';
 import 'package:orgami/view/modules/Buyer/tab_profile.dart';
+import 'package:orgami/viewmodel/firestore.dart';
+import 'package:provider/provider.dart';
 
 class NavigationBuyer extends StatelessWidget {
   NavigationBuyer({super.key});
@@ -15,7 +18,24 @@ class NavigationBuyer extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body: SafeArea(child: TabBarView(children: body)),
+        body:  Consumer<FirestoreDb>(builder: (context, firestore, child) {
+          return Builder(builder: (context) {
+            return FutureBuilder(
+              future: firestore.fetchCurrentUser(
+                  "Buyer", FirebaseAuth.instance.currentUser!.uid, context, NavigationBuyer(), false),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: brown,
+                    ),
+                  );
+                }
+                return TabBarView(children: body);
+              },
+            );
+          });
+        }),
         backgroundColor: white,
         bottomNavigationBar: Container(
           padding: const EdgeInsets.only(left: 10, right: 10),
