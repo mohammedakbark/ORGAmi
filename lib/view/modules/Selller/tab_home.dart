@@ -1,7 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:orgami/model/product_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/img.dart';
 import 'package:orgami/viewmodel/firestore.dart';

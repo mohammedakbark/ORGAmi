@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:orgami/model/buyer_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
 import 'package:orgami/viewmodel/firestore.dart';
@@ -53,7 +52,7 @@ class ViewAllBuyersAdmin extends StatelessWidget {
                     color: grey,
                   ),
                   child: data!.isEmpty || data == null
-                      ? Center(
+                      ? const Center(
                           child: Text("Buyers not found"),
                         )
                       : ListView.builder(
@@ -118,13 +117,13 @@ class ViewAllBuyersAdmin extends StatelessWidget {
                                   )),
                               key: Key(index.toString()),
                               child: Container(
-                                  margin: EdgeInsets.only(top: 20, bottom: 20),
+                                  margin: const EdgeInsets.only(top: 20, bottom: 20),
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
                                             color: black.withOpacity(.2),
-                                            offset: Offset(0, 2))
+                                            offset: const Offset(0, 2))
                                       ],
                                       color: white,
                                       borderRadius: BorderRadius.circular(15)),

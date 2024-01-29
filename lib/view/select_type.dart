@@ -6,7 +6,7 @@ import 'package:orgami/view/modules/Buyer/loginpage.dart';
 import 'package:orgami/view/modules/Selller/loginpage.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 
 class SelectUserPage extends StatelessWidget {
   SelectUserPage({super.key});

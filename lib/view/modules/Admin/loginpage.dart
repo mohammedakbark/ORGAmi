@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
-import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Admin/navigation.dart';
 
 import 'package:orgami/view/widgets/custom_button.dart';

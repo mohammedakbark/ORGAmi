@@ -5,11 +5,9 @@ import 'package:orgami/model/seller_model.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
 import 'package:orgami/utils/variables.dart';
-import 'package:orgami/view/modules/Selller/loginpage.dart';
 import 'package:orgami/view/splash_screeen.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
-import 'package:orgami/view/widgets/show.dart';
 import 'package:orgami/viewmodel/controller.dart';
 import 'package:provider/provider.dart';
 

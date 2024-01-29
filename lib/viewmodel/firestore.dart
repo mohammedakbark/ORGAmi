@@ -1,7 +1,7 @@
-// ignore_for_file: avoid_print
+
 
 import 'dart:async';
-import 'dart:math';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +11,7 @@ import 'package:orgami/model/new_order_model.dart';
 import 'package:orgami/model/product_model.dart';
 import 'package:orgami/model/seller_model.dart';
 import 'package:orgami/utils/variables.dart';
-import 'package:orgami/view/widgets/show.dart';
+
 import 'package:orgami/viewmodel/check_login_preference.dart';
 import 'package:orgami/viewmodel/firebase_auths.dart';
 
@@ -23,11 +23,7 @@ class FirestoreDb with ChangeNotifier {
 
   
 //---------------------------create---------------------------------
-  // void signinUser(email, password, context, collection, toPage, model) async {
-  //   await firebaseAuth.sign(email, password, context).then((uID) async {
-      
-  //   });
-  // }
+ 
 
 
   _signSeller(email, password, context, SellerModel sellerModel) async {
@@ -184,20 +180,7 @@ class FirestoreDb with ChangeNotifier {
     return allProductList;
   }
 
-  // fetchUserData(collection, uid) async {
-  //   DocumentReference<Map<String, dynamic>> docRef =
-  //       db.collection(collection).doc(uid);
-  //   final snapshot = await docRef.get();
-  //   if (snapshot.exists) {
-  //     if (collection == "Buyer") {
-  //       buyerModel = BuyerModel.fromJson(snapshot.data()!);
-
-  //     }else if(collection == "Seller"){
-  //        sellerModel = SellerModel.fromJson(snapshot.data()!);
-
-  //     }
-  //   }
-  // }
+ 
   List<NewOrderModel> ordersList = [];
   fetchnotificationforSellerAndBuyer(id) async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await db

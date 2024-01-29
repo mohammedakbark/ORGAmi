@@ -1,11 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
-import 'package:orgami/utils/variables.dart';
-import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/viewmodel/firestore.dart';
 import 'package:provider/provider.dart';
 
@@ -231,41 +227,7 @@ class DailyUpdatePage extends StatelessWidget {
                     );
                   }
 
-                  // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                  // floatingActionButton: SizedBox(
-                  //   width: width,
-                  //   height: 130,
-                  //   child: Center(
-                  //     child: customeButton(
-                  //         onpressed: () {
-                  //           showDialog(
-                  //               context: context,
-                  //               builder: (context) => AlertDialog(
-                  //                     elevation: 0,
-                  //                     backgroundColor: Colors.transparent,
-                  //                     title: Column(
-                  //                       children: [
-                  //                         const Icon(
-                  //                           CupertinoIcons.check_mark_circled,
-                  //                           size: 200,
-                  //                           color: Color.fromARGB(255, 111, 91, 84),
-                  //                         ),
-                  //                         Text(
-                  //                           "Update Succesfull!",
-                  //                           style: poppinsStyle(FontWeight.w700, 20, white),
-                  //                         )
-                  //                       ],
-                  //                     ),
-                  //                   ));
-                  //         },
-                  //         buttonwidth: .6,
-                  //         buttonHight: .05,
-                  //         context: context,
-                  //         text: "Update",
-                  //         textcolor: white,
-                  //         bgColor: const MaterialStatePropertyAll(brown)),
-                  //   ),
-                  // ),
+                 
                   );
             })));
   }

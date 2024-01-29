@@ -4,7 +4,6 @@ import 'package:orgami/utils/text_style.dart';
 import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Buyer/navigation.dart';
 import 'package:orgami/view/modules/Buyer/signup_page.dart';
-import 'package:orgami/view/modules/Selller/signup_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
 
@@ -12,7 +11,7 @@ class BuyerLoginPage extends StatelessWidget {
   BuyerLoginPage({super.key});
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

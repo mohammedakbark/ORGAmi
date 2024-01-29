@@ -1,18 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:orgami/utils/colors.dart';
 import 'package:orgami/utils/text_style.dart';
-import 'package:orgami/utils/variables.dart';
 import 'package:orgami/view/modules/Selller/aboutus_page.dart';
-import 'package:orgami/view/modules/Selller/daily_update.dart';
 import 'package:orgami/view/modules/Selller/dailyupdate_page.dart';
-import 'package:orgami/view/modules/Selller/notification_page.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/viewmodel/firebase_auths.dart';
 import 'package:orgami/viewmodel/firestore.dart';
-import 'package:provider/provider.dart';
 
 class SellerProfilePage extends StatelessWidget {
   FirestoreDb firestore;
