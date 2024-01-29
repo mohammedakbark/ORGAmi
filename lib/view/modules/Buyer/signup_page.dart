@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +14,7 @@ import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
 import 'package:orgami/view/widgets/show.dart';
 import 'package:orgami/viewmodel/controller.dart';
+import 'package:orgami/viewmodel/firestore.dart';
 import 'package:provider/provider.dart';
 
 class BuyerSignPage extends StatefulWidget {
@@ -35,15 +40,58 @@ class _BuyerSignPageState extends State<BuyerSignPage> {
   var phonenumberController = TextEditingController();
 
   final _fromkey = GlobalKey<FormState>();
+  BuyerModel? buyerModel;
+  String? uID;
+  final db = FirebaseFirestore.instance;
+  bool isVerified = false;
 
-  bool myBool = false;
-@override
+  bool isEmailVerified = false;
+  Timer? timer;
+  @override
   void initState() {
-   if(myBool)
+    print("h");
+    // if (isVerified) {
+    print("hi");
+    timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (_) => checkEmailVerified(context, BuyerLoginPage(),
+            emailController.text, "Buyer", buyerModel, uID));
+    // }
+
     super.initState();
   }
+
+  checkEmailVerified(context, toPage, email, collection, model, uID) async {
+    print("hii");
+    await FirebaseAuth.instance.currentUser?.reload();
+    if (isVerified == true) {
+      print("hii");
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      if (isEmailVerified) {
+        if (collection == "Buyer") {
+          BuyerModel buyerModel = model;
+          await db
+              .collection(collection)
+              .doc(uID)
+              .set(buyerModel.tojson(uID))
+              .then(
+                  (value) => succesRegistrationMessage(context, email, toPage));
+        }
+
+        timer?.cancel();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<FirestoreDb>(context);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -301,11 +349,38 @@ class _BuyerSignPageState extends State<BuyerSignPage> {
                 // CheckboxListTile(value: value, onChanged: onChanged),
                 Consumer<Controller>(builder: (context, controller, child) {
                   return customeButton(
-                      onpressed: () async {
+                      onpressed: () {
                         if (_fromkey.currentState!.validate()) {
                           if (controller.termsAndCondition == true) {
-                            await auth.emailVarification(context);
-                            myBool = true;
+                            auth
+                                .sign(emailController.text,
+                                    passwordController.text, context)
+                                .then((value) {
+                              uID = value;
+                              buyerModel = BuyerModel(
+                                  address: addressController.text,
+                                  email: emailController.text,
+                                  mobileNumber: phonenumberController.text,
+                                  name: fullNameController.text,
+                                  pincode: pinController.text);
+
+                              isVerified = true;
+                              setState(() {});
+                              print(isVerified);
+                            });
+
+                            //  firestoreDb.signinUser(
+                            //     emailController.text,
+                            //     passwordController.text,
+                            //     context,
+                            //     "Buyer",
+                            //     BuyerLoginPage(),
+                            //     BuyerModel(
+                            //         address: addressController.text,
+                            //         email: emailController.text,
+                            //         mobileNumber: phonenumberController.text,
+                            //         name: fullNameController.text,
+                            //         pincode: pinController.text));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

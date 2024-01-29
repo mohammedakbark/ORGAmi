@@ -17,12 +17,10 @@ class FirebaseAuths {
     BuildContext context,
   ) async {
     try {
-      
-
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       newUID = userCredential.user!.uid;
-
+      await emailVarification(context);
       print("*********************$newUID**********************");
       return userCredential.user!.uid;
     } catch (e) {
@@ -40,9 +38,6 @@ class FirebaseAuths {
             (value) => customeShowDiolog(
                 "Varification email Send to your registered email address ${FirebaseAuth.instance.currentUser!.email} ",
                 context));
-     
-      } else {
-     
       }
     } catch (e) {
       customeShowDiolog("$e", context);

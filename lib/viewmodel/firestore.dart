@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,15 +18,17 @@ import 'package:orgami/viewmodel/firebase_auths.dart';
 class FirestoreDb with ChangeNotifier {
   FirebaseAuths firebaseAuth = FirebaseAuths();
   final db = FirebaseFirestore.instance;
+
+
+
+  
 //---------------------------create---------------------------------
-  void signinUser(email, password, context, collection, toPage, model) async {
-    await firebaseAuth.sign(email, password, context).then((uID) async {
-      if (collection == "Buyer") {
-        BuyerModel buyerModel = model;
-        await db.collection(collection).doc(uID).set(buyerModel.tojson(uID));
-      }
-    }).then((value) => succesRegistrationMessage(context, email, toPage));
-  }
+  // void signinUser(email, password, context, collection, toPage, model) async {
+  //   await firebaseAuth.sign(email, password, context).then((uID) async {
+      
+  //   });
+  // }
+
 
   _signSeller(email, password, context, SellerModel sellerModel) async {
     await firebaseAuth.sign(email, password, context).then((uID) async {
