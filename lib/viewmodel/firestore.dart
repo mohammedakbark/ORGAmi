@@ -1,7 +1,4 @@
-
-
 import 'dart:async';
-
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,14 +16,10 @@ class FirestoreDb with ChangeNotifier {
   FirebaseAuths firebaseAuth = FirebaseAuths();
   final db = FirebaseFirestore.instance;
 
-
-
-  
 //---------------------------create---------------------------------
- 
 
-
-  _signSeller(email, password, context, SellerModel sellerModel) async {
+  _signSeller(email, password, context, SellerModel sellerModel,
+      sellerTembDocId) async {
     await firebaseAuth.sign(email, password, context).then((uID) async {
       await db.collection("Seller").doc(uID).set(sellerModel.tojson(uID));
       final collectionRef =
@@ -38,11 +31,16 @@ class FirestoreDb with ChangeNotifier {
             ProductModel(id: element, quantity: "0", rate: "0");
         collectionRef.doc(element).set(productModel.toJson());
       });
+      return uID;
+    }).then((value) {
+      db.collection("Seller").doc(value).update({"status": "ACTIVATED"});
+
+      deleteADocument("Seller", sellerTembDocId);
     });
   }
 
   registerSeller(SellerModel sellerModel) async {
-    final doc = db.collection("Seller Register").doc();
+    final doc = db.collection("Seller").doc();
     await doc.set(sellerModel.tojson(doc.id));
   }
 
@@ -77,13 +75,14 @@ class FirestoreDb with ChangeNotifier {
 
   updateSellerRegister(
       docId, status, email, password, context, sellerModel) async {
-    await db
-        .collection("Seller Register")
-        .doc(docId)
-        .update({"status": status});
-    notifyListeners();
+    if (status != "ACTIVATED") {
+      await db.collection("Seller").doc(docId).update({"status": status});
+      notifyListeners();
+    }
+
     if (status == "ACTIVATED") {
-      await _signSeller(email, password, context, sellerModel);
+      await _signSeller(email, password, context, sellerModel, docId);
+      notifyListeners();
     }
   }
 
@@ -180,7 +179,6 @@ class FirestoreDb with ChangeNotifier {
     return allProductList;
   }
 
- 
   List<NewOrderModel> ordersList = [];
   fetchnotificationforSellerAndBuyer(id) async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await db
@@ -205,7 +203,7 @@ class FirestoreDb with ChangeNotifier {
   List<SellerModel> registerList = [];
   fetchRegisterdSeller() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("Seller Register").get();
+        await db.collection("Seller").get();
 
     registerList = snapshot.docs.map((e) {
       return SellerModel.fromJson(e.data());
