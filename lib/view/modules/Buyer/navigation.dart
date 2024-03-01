@@ -18,11 +18,15 @@ class NavigationBuyer extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body:  Consumer<FirestoreDb>(builder: (context, firestore, child) {
+        body: Consumer<FirestoreDb>(builder: (context, firestore, child) {
           return Builder(builder: (context) {
             return FutureBuilder(
               future: firestore.fetchCurrentUser(
-                  "Buyer", FirebaseAuth.instance.currentUser!.uid, context, NavigationBuyer(), false),
+                  "Buyer",
+                  FirebaseAuth.instance.currentUser!.uid,
+                  context,
+                  NavigationBuyer(),
+                  false),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

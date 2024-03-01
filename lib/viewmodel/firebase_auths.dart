@@ -9,7 +9,7 @@ import 'package:orgami/viewmodel/check_login_preference.dart';
 
 class FirebaseAuths {
   FirebaseAuth auth = FirebaseAuth.instance;
-  dynamic newUID;
+    dynamic newUID;
 
   Future<String> sign(
     email,

@@ -7,7 +7,6 @@ import 'package:orgami/view/modules/Selller/loginpage.dart';
 import 'package:orgami/view/widgets/custom_button.dart';
 import 'package:orgami/view/widgets/custome_text.dart';
 
-
 class SelectUserPage extends StatelessWidget {
   SelectUserPage({super.key});
   List<String> slides = [
@@ -27,7 +26,6 @@ class SelectUserPage extends StatelessWidget {
           SizedBox(
             height: height * .1,
           ),
-          
           SizedBox(
             height: 400,
             child: CarouselSlider.builder(
